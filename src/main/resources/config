@@ -17,13 +17,14 @@ addVoucher=/government-affair/tax/voucher/bill/add
 addVoucherBody={"name":"%s","reconciliationMonth":"2020-10","voucherDetailIds":["%s"],"saveAsTemporary":0}
 
 parkAward=/finance/park/settlement/page
-parkAwardBody={"parkIds":["1299555607258415180"],"entpId":"%s","taxTypes":["%s"],"taxPaymentMonthStart":"%s","taxPaymentMonthEnd":"%s","current":1,"size":20}
-
+parkAwardBody={"parkIds":["1299555607250026736"],"entpId":"%s","taxTypes":["%s"],"taxPaymentMonthStart":"%s","taxPaymentMonthEnd":"%s","current":1,"size":20}
+parkId=1299555607250026736
 
 gongxian=1299555607250026614
 changle=1299555607250026558
 zhoushan=1299555607250026553
 laixi=1299555607258415180
+liuyang=1299555607250026736
 
 empBonus=/finance/emp/bonus/queryPageServiceFee
 empBonusBody={"expenseType":2,"status":1,"voucherBillId":"%s","entpId":"%s","taxTypes":["%s"],"startMonth":"%s","endMonth":"%s","current":1,"size":20}

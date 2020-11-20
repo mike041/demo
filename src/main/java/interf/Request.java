@@ -24,8 +24,7 @@ public class Request {
     public String result;
     static String path = new PropertiesUtils().getProperties("path");
     RequestConfig config;
-    static String token;
-
+    static String token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiIxMzE5NjI3MzI0MzcwNDcxMTk1IiwicGxhdGZvcm1ObyI6MSwiY2xpZW50SWQiOiJyZXNpY28iLCJleHAiOjE2MDU4NDIzNzgsInVzZXJJZCI6IjEzMTk2MzcwNjU4NzY0MDI2NjkiLCJqdGkiOiJkYmRhYjJkOS1iNDA0LTQ5OTQtOTA3ZS1jNzJlOGZjNTFjYmMifQ.k8D19PCaFYV-gSjtc0QvENxNskHrTcNSAfrRCTmcjww";
     public Request() {
         config = RequestConfig.custom().
                 setConnectTimeout(20000).
@@ -164,15 +163,15 @@ public class Request {
 
     @Test
     public void getConfirmBeIssued() {
-        this.login();
+        //this.login();
         String url = "/finance/park/receivable/page";
 
         String uri = path + url;
         int count = 0;
-
+        String parkId = new PropertiesUtils().getProperties("parkId");
         for (int i = 3; i < 30; i++) {
-            String body = "{\"parkId\":\"1299555607250026558\",\"current\":%d,\"size\":200}";
-            body = String.format(body, i);
+            String body = "{\"parkId\":%s,\"current\":%d,\"size\":200}";
+            body = String.format(body,parkId, i);
             String result = this.post(uri, body, "");
             List records = JSON.parseObject(result).getJSONObject("data").getJSONArray("records");
             int total = Integer.valueOf(JSON.parseObject(result).getJSONObject("data").getString("total"));

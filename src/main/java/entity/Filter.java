@@ -18,6 +18,7 @@ public class Filter {
     private int taxType;
     private String taxAmt;
     private String entpId;
+    private String parkAwardAmt;
     private List<Map<String, String>> list = new ArrayList<>();
     private Logger logger = Logger.getLogger(this.getClass());
 
