@@ -1,10 +1,6 @@
 package utils;
 
-import lombok.Data;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.ListUtils;
-import org.apache.commons.collections4.MapUtils;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+
 import org.apache.poi.ss.usermodel.*;
 
 import java.io.File;
@@ -31,13 +27,27 @@ public class ExcelUtils {
         this.load();
     }
 
+    public ExcelUtils(String filePath) {
+        this.filePath = filePath;
+        this.flag = false;
+        this.load();
+    }
+
+
+
 
     public void load() {
         FileInputStream inStream = null;
         try {
             inStream = new FileInputStream(new File(filePath));
             workBook = WorkbookFactory.create(inStream);
-            sheet = workBook.getSheet(sheetName);
+            if (sheetName == null) {
+                sheet = workBook.getSheetAt(0);
+            } else {
+                sheet = workBook.getSheet(sheetName);
+            }
+
+
             numOfRows = sheet.getLastRowNum() + 1;
             this.getColumnHeaderList();
 
@@ -164,6 +174,8 @@ public class ExcelUtils {
     }
 
 
+
+
     public Map<String, String> getRowData(int index) {
         Row row = sheet.getRow(index);
         Map<String, String> map = new HashMap<String, String>();
@@ -239,5 +251,7 @@ public class ExcelUtils {
         System.out.println(excelUtils.getMapData().subList(0, 10));
 
     }
+
+
 
 }

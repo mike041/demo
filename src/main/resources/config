@@ -1,14 +1,24 @@
-name="15902379217"
-#password="0a13871135c684f55f89bd1103f790d9"
-#name="15902379233"
-password="d88afa30f55f4b50b69b00f9f4fc4dec"
-
-#path=http://api.test.ustax.tech
+path=http://api.test.ustax.tech
 #path=http://api.prod.ustax.com.cn
-path=http://api.fin.ustax.com.cn
+#path=http://api.fin.ustax.com.cn
+
+#name="15902379233"
+name="15902379217"
+password="0a13871135c684f55f89bd1103f790d9"
+#password="d88afa30f55f4b50b69b00f9f4fc4dec"
+
+token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiIxMzA1MzIwNzg3MzMzOTE4NzIxIiwicGxhdGZvcm1ObyI6MSwiY2xpZW50SWQiOiJyZXNpY28iLCJleHAiOjE2MDkzOTE4MjQsInVzZXJJZCI6IjEzMDUzMjA3ODUzNzc5MzEyNjUiLCJqdGkiOiJhYjU5ZDEwNy05Y2NhLTRlMGEtODBmNy01YWIyMmYwNmQ4NjIifQ.PaSrcKx94Ry81_3cdR6DtIrzNAU32oBx8nWahvrptv4
 
 
 
+#excelPath=F:\\\\\u6570\u636E\\\\1117\u65B0\u56ED\u533A\\\\\u8FBD\u5B81\u6C38\u9675\\\\\u8FBD\u5B81\u6C38\u9675\u56ED\u533A.xlsx
+#excelPath=F:\\\\\u6570\u636E\\\\1117\u65B0\u56ED\u533A\\\\\u5B89\u5FBD\u56FA\u9547\\\\\u5B89\u5FBD\u56FA\u9547\u56ED\u533A.xlsx
+#excelPath=F:\\\\\u6570\u636E\\\\1117\u65B0\u56ED\u533A\\\\\u6C5F\u82CF\u62DB\u5546\u65BD\u6CB3\u9547\\\\\u6C5F\u82CF\u62DB\u5546\u65BD\u6CB3\u9547.xlsx
+#excelPath=F:\\\\\u6570\u636E\\\\1117\u65B0\u56ED\u533A\\\\\u6E56\u5317\u5927\u91D1\u56ED\u533A\\\\\u6E56\u5317\u5927\u91D1\u56ED\u533A.xlsx
+#excelPath=F:\\\\\u6570\u636E\\\\1117\u65B0\u56ED\u533A\\\\\u91CD\u5E86\u79C0\u5C71\u56ED\u533A\\\\\u91CD\u5E86\u79C0\u5C71\u56ED\u533A.xlsx
+#excelPath=F:\\\\\u6570\u636E\\\\1117\u65B0\u56ED\u533A\\\\\u5C71\u4E1C\u5BFF\u5149\u56ED\u533A\\\\\u5C71\u4E1C\u5BFF\u5149\u56ED\u533A.xlsx
+#excelPath=F:\\\\\u6570\u636E\\\\1117\u65B0\u56ED\u533A\\\\\u5C71\u4E1C\u660C\u4E50\u56ED\u533A\\\\\u5C71\u4E1C\u660C\u4E50\u56ED\u533A.xlsx
+excelPath=F:\\\\\u6570\u636E\\\\1117\u65B0\u56ED\u533A\\\\\u5C71\u4E1C\u5B89\u4E18\u56ED\u533A\\\\\u5C71\u4E1C\u5B89\u4E18\u56ED\u533A.xlsx
 
 
 url=/auth/login
@@ -17,7 +27,7 @@ addVoucher=/government-affair/tax/voucher/bill/add
 addVoucherBody={"name":"%s","reconciliationMonth":"2020-10","voucherDetailIds":["%s"],"saveAsTemporary":0}
 
 parkAward=/finance/park/settlement/page
-parkAwardBody={"parkIds":["1299555607250026736"],"entpId":"%s","taxTypes":["%s"],"taxPaymentMonthStart":"%s","taxPaymentMonthEnd":"%s","current":1,"size":20}
+parkAwardBody={"entpId":"%s","taxTypes":["%s"],"taxPaymentMonthStart":"%s","taxPaymentMonthEnd":"%s","current":1,"size":50}
 parkId=1299555607250026736
 
 gongxian=1299555607250026614
@@ -25,6 +35,7 @@ changle=1299555607250026558
 zhoushan=1299555607250026553
 laixi=1299555607258415180
 liuyang=1299555607250026736
+
 
 empBonus=/finance/emp/bonus/queryPageServiceFee
 empBonusBody={"expenseType":2,"status":1,"voucherBillId":"%s","entpId":"%s","taxTypes":["%s"],"startMonth":"%s","endMonth":"%s","current":1,"size":20}
@@ -42,5 +53,13 @@ consultantBonusBody={"expenseType":2,"voucherBillId":"%s","entpId":"%s","taxType
 
 entpUrl=/government-affair/enterprises
 entpBody={"keywords":"%s","current":1,"size":20}
+entpBodyFull={"parkId":"%s","current":1,"size":2000}
+
+
+parkUrl=/government-affair/park/cooperations
+parkBody={"keywords":"%s","current":1,"size":20}
+
+
+#entpBodyFull={"status":1,"current":1,"size":20}
 
 

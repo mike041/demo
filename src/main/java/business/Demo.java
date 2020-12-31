@@ -1,27 +1,39 @@
 package business;
 
 
-
 public class Demo {
 
+    int s1;
+    static int s2 = 100;
 
-    public void test(String s) {
-
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                System.out.println(s);
-            }
-        });
-        thread.start();
+    public Demo(int s1) {
+        this.s1 = s1;
+        System.out.println("构造器");
     }
 
+    {
+        System.out.println("普通代码块");
+        s1 = s1 + 1;
+        s2 = s2 + 1;
+
+    }
+
+    static {
+        System.out.println("静态代码块");
+        s2 = s2 + 1;
+    }
+    public void test1(){
+        System.out.println("test1");
+    }
+    public static void test2(){
+        System.out.println("test2");
+    }
 
     public static void main(String[] args) {
-        for (int i = 0; i < 5; i++) {
-            Demo demo = new Demo();
-            demo.test("wo" + i);
-        }
+
+        String builder="sadsdsadd%s";
+        String th= builder.replace("%s","sasd");
+        System.out.println(th);
     }
 
 

@@ -1,0 +1,10 @@
+classes:
+  - class:
+      className: "DemoTest"
+      description: "测试入驻企业"
+      classSetUp: {contactName: "测试1192", qq: "15902376005", tels: "15902376005", weChat: "15902376005", customerName: "这更改好啥", companyName: "这是所了啥入驻",parkId: "1316213784702005249" }
+      methodSetUp:  {}
+  - class:
+      className: "DemoTest1"
+      classSetUp:  {contactName: "测试11212", qq: "10848823802", tels: "15902376003", weChat: "的的时代", customerName: "这更改是啥", companyName: "这是所属啥入驻",parkId: "1316213784702005249" }
+      methodSetUp: {}

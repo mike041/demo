@@ -1,30 +1,33 @@
 package interf;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.jayway.jsonpath.JsonPath;
 import org.apache.http.*;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.testng.annotations.Test;
+import org.testng.Assert;
+import request.MyGet;
 import utils.PropertiesUtils;
 import utils.TestLog;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Properties;
 
 public class Request {
     TestLog logger = new TestLog();
     public String result;
     static String path = new PropertiesUtils().getProperties("path");
     RequestConfig config;
-    static String token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiIxMzE5NjI3MzI0MzcwNDcxMTk1IiwicGxhdGZvcm1ObyI6MSwiY2xpZW50SWQiOiJyZXNpY28iLCJleHAiOjE2MDU4NDIzNzgsInVzZXJJZCI6IjEzMTk2MzcwNjU4NzY0MDI2NjkiLCJqdGkiOiJkYmRhYjJkOS1iNDA0LTQ5OTQtOTA3ZS1jNzJlOGZjNTFjYmMifQ.k8D19PCaFYV-gSjtc0QvENxNskHrTcNSAfrRCTmcjww";
+    public static String token = new PropertiesUtils().getProperties("token");
+
     public Request() {
         config = RequestConfig.custom().
                 setConnectTimeout(20000).
@@ -36,10 +39,6 @@ public class Request {
     public void setRequestConfig(RequestConfig config) {
         this.config = config;
     }
-
-/*   public void setHeader(List<Header> headers) {
-        this.headers = headers;
-    }*/
 
     public String post(String url, String json, String token) {
         CloseableHttpClient httpClient;
@@ -58,11 +57,13 @@ public class Request {
             post.setEntity(stringEntity);
             CloseableHttpResponse response = httpClient.execute(/*proxy,*/ post);
             HttpEntity httpEntity = response.getEntity();//获取响应正文对象
-            String myResult = EntityUtils.toString(httpEntity, "utf-8");
+            String myResult = EntityUtils.toString(httpEntity, "UTF-8");
+            int code = (int) JsonPath.read(myResult, "$.code");
+            Assert.assertEquals(code, 10000, myResult);
+
             //logger.info("返回：" + myResult);
             return myResult;
         } catch (ClientProtocolException e) {
-
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
@@ -71,26 +72,61 @@ public class Request {
     }
 
 
+    public String get(String url, String json, String token) {
 
-    /*public String get(String url, String json) {
-        MyGet myGet = null;
+        CloseableHttpClient httpClient;
+        MyGet get = null;
+        //HttpHost proxy = new HttpHost("127.0.0.1", 8888);
+
         try {
-            myGet = new MyGet(url);
-            myGet.setConfig(config);
-            myGet.setHeaders(headers.toArray(new Header[headers.size()]));
+            httpClient = HttpClients.createDefault();
+            get = new MyGet(url);
+            get.setConfig(config);
+            get.addHeader("Authorization", "Bearer " + token);
+            get.addHeader("Content-Type", "application/json;charset=UTF-8");
 
-            HttpEntity entity = new StringEntity(json);
-            myGet.setEntity(entity);
-            response = httpClient.execute(myGet);
-            responseEntity = EntityUtils.toString(response.getEntity());
-            return responseEntity;
+            StringEntity stringEntity = new StringEntity(json, "UTF-8");
+            //logger.info("请求：" + EntityUtils.toString(stringEntity));
+            get.setEntity(stringEntity);
+            CloseableHttpResponse response = httpClient.execute(/*proxy,*/ get);
+            HttpEntity httpEntity = response.getEntity();//获取响应正文对象
+            String myResult = EntityUtils.toString(httpEntity, "UTF-8");
+            //logger.info("返回：" + myResult);
+            return myResult;
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
-    }*/
+    }
+
+    public String get(String url) {
+
+        CloseableHttpClient httpClient;
+        HttpGet get = null;
+        //HttpHost proxy = new HttpHost("127.0.0.1", 8888);
+
+        try {
+            httpClient = HttpClients.createDefault();
+            get = new HttpGet(url);
+            get.setConfig(config);
+            get.addHeader("Authorization", "Bearer " + token);
+            get.addHeader("Content-Type", "application/json;charset=UTF-8");
+            //logger.info("请求：" + EntityUtils.toString(stringEntity));
+            CloseableHttpResponse response = httpClient.execute(/*proxy,*/ get);
+            HttpEntity httpEntity = response.getEntity();//获取响应正文对象
+            String myResult = EntityUtils.toString(httpEntity, "UTF-8");
+            //logger.info("返回：" + myResult);
+            return myResult;
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     public String addVoucher(String voucherBillId) {
         String url = new PropertiesUtils().getProperties("addVoucher");
@@ -141,13 +177,47 @@ public class Request {
         return this.post(uri, body, token);
     }
 
-    public String getEntpId(String entpName) {
+    public String getEntpId(String entpCode) {
         String url = new PropertiesUtils().getProperties("entpUrl");
         String body = new PropertiesUtils().getProperties("entpBody");
         String uri = path + url;
-        body = String.format(body, entpName);
+        body = String.format(body, entpCode);
         return this.post(uri, body, token);
     }
+
+    public HashMap<String, String> getAllEntpMap(String parkName) {
+        String url = new PropertiesUtils().getProperties("entpUrl");
+        String body = new PropertiesUtils().getProperties("entpBodyFull");
+        body = String.format(body, this.getPark(parkName));
+        String uri = path + url;
+        String result = this.post(uri, body, token);
+        List records = JSON.parseObject(result).getJSONObject("data").getJSONArray("records");
+        HashMap<String, String> AllEntpMap = new HashMap<>();
+        for (Object s : records
+        ) {
+            String entpId = JSON.parseObject(s.toString()).get("id").toString();
+            String entpName = JSON.parseObject(s.toString()).getJSONArray("names").get(0).toString();
+            String entpCode = JSON.parseObject(s.toString()).getString("code");
+            AllEntpMap.put(entpCode, entpId);
+        }
+        return AllEntpMap;
+    }
+
+    public String getPark(String parkName) {
+        String url = new PropertiesUtils().getProperties("parkUrl");
+        String body = new PropertiesUtils().getProperties("parkBody");
+        body = String.format(body, parkName);
+        String uri = path + url;
+        String result = this.post(uri, body, token);
+        List records = JSON.parseObject(result).getJSONObject("data").getJSONArray("records");
+        String parkId = "";
+        for (Object s : records
+        ) {
+            parkId = JSON.parseObject(s.toString()).get("id").toString();
+        }
+        return parkId;
+    }
+
 
     public void login() {
         String url = new PropertiesUtils().getProperties("url");
@@ -157,12 +227,13 @@ public class Request {
         String body = "{\"loginType\":1,\"platformNo\":1,\"clientId\":\"resico\",\"clientSecret\":\"resico888\",\"username\":%s,\"password\":%s}";
         body = String.format(body, name, password);
         String result = this.post(uri, body, "");
-        token = JSON.parseObject(result).getJSONObject("data").get("accessToken").toString().replaceAll("\"", "");
+        Request.token = JSON.parseObject(result).getJSONObject("data").get("accessToken").toString().replaceAll("\"", "");
     }
 
 
-    @Test
-    public void getConfirmBeIssued() {
+    //确认待发放
+
+  /*  public void getConfirmBeIssued() {
         //this.login();
         String url = "/finance/park/receivable/page";
 
@@ -190,7 +261,7 @@ public class Request {
             }
         }
 
-    }
+    }*/
 
 
     public void confirmBeIssued(String id) {
@@ -198,6 +269,23 @@ public class Request {
         String body = "";
         String uri = path + String.format(url, id);
         this.post(uri, body, token);
+    }
+
+
+    //新增私有库
+    public void privateSave(String body) {
+
+        String url = new PropertiesUtils().getProperties("privateSave");
+        String uri = path + url;
+        String result = this.post(uri, body, token);
+    }
+
+    public String privatePage() {
+
+        String url = new PropertiesUtils().getProperties("privatePage");
+        String body = new PropertiesUtils().getProperties("privatePageBody");
+        String uri = path + url;
+        return this.post(uri, body, token);
     }
 
 

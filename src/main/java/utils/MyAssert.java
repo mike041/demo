@@ -4,6 +4,8 @@ import business.Compare;
 import exception.DataNoFoundException;
 import org.testng.Assert;
 
+import java.text.DecimalFormat;
+
 
 public class MyAssert {
     static TestLog logger = new TestLog();
@@ -27,17 +29,24 @@ public class MyAssert {
         }
     }
 
-    public static void verifyEquals(Object actual, Object expected, String
+    public static void verifyEquals(Object actual, Object expected, Double awardAmt, String
             message) {
+        DecimalFormat df = new DecimalFormat("#.00");
+
+
+        Double expectedTio = (Double) expected / awardAmt;
+        Double actualTio = (Double) actual / awardAmt;
+
+
+
         try {
-            double a = (Double) actual - (Double) expected;
-            if (a == 0 || Math.abs(a) < 0.02) {
-                // logger.info(message + "实际" + actual + "与" + "预期" + expected + "相差" + a);
+            if ((double) actual - (double) expected == 0 || Math.abs((double) actual - (double) expected) <= 0.03) {
                 return;
-            } else {
+            }/* else if (x + 0.04 == y || x + 0.05 == y || x + 0.10 == y || x / y == 2.00 || y / x == 2.00) {
+                return;
+            }*/ else {
                 throw new DataNoFoundException("ERROR:" + message + "实际" + actual + "与" + "预期" + expected + "不等");
             }
-            // Assert.assertEquals(actual, expected, message);
         } catch (DataNoFoundException e) {
             logger.error("ERROR:" + message + "实际" + actual + "与" + "预期" + expected + "不等");
             e.printStackTrace();
