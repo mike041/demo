@@ -10,9 +10,11 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Map;
 
 
 public class TestBaseCase {
+    public Map map;
     //方法描述
     Request request = new Request();
     public static String description;
@@ -22,12 +24,12 @@ public class TestBaseCase {
     public void setup() {
         log.info("------------------判断是否需要登录---------------");
 
-        if (!this.isTokenEffective()) {
+       /* if (!this.isTokenEffective()) {
             request.login();
-        }
+        }*/
 
-        log.info("------------------生成数据---------------");
-        this.GenerateData();
+        /*log.info("------------------生成数据---------------");
+        this.GenerateData();*/
 
         log.info("------------------开始执行测试---------------");
     }
@@ -49,15 +51,15 @@ public class TestBaseCase {
 
     private void GenerateData() {
         String tels = RandomUtils.getNumber(11);
-        String customerName = ChineseChar.getRandomString(5);
-        String companyName = ChineseChar.getRandomString(5);
+        String customerName = RandomUtils.getRandomString(5);
+        String companyName = RandomUtils.getRandomString(5);
 
         String sql1 = "SELECT count(1) FROM  crm_customer WHERE `name`=?;";
         String sql2 = "SELECT count(1) FROM  ems_enterprise WHERE `names`=?;";
         TestJDBC.load();
         try {
-            while (TestJDBC.query(sql1, customerName).getRow() > 0) customerName = ChineseChar.getRandomString(5);
-            while (TestJDBC.query(sql2, companyName).getRow() > 0) companyName = ChineseChar.getRandomString(5);
+            while (TestJDBC.query(sql1, customerName).getRow() > 0) customerName = RandomUtils.getRandomString(5);
+            while (TestJDBC.query(sql2, companyName).getRow() > 0) companyName = RandomUtils.getRandomString(5);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

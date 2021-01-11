@@ -1,8 +1,10 @@
 package entity;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class Award {
     public String adviserAwardMonth; //渠道奖励月份
     public String adviserName; //渠道名称

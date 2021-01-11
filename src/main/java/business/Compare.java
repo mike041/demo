@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import entity.Filter;
-import exception.DataNoFoundException;
+import exception.MyException;
 import interf.Request;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.testng.Assert;
@@ -99,16 +99,18 @@ public class Compare {
 
 
     public Filter setfilterConditon(HashMap<String, String> expectedAward) {
-        Filter filter = new Filter();
-        filter.setEntpName(expectedAward.get("企业"));
-        filter.setTaxMonth(expectedAward.get("税款缴纳月"));
-        filter.setTaxTypeName(expectedAward.get("奖励税种"));
-        filter.setParkAwardAmt(expectedAward.get("园区应返税金额"));
-        filter.setEntpCode(expectedAward.get("档案编号"));
-        filter.setParkName(expectedAward.get("入驻园区"));
-        filter.setTaxTypeId();
         Double taxAmt = Double.valueOf(expectedAward.get("完税额"));
-        filter.setTaxAmt(String.format("%.2f", taxAmt));
+
+        Filter filter = Filter.builder()
+                .entpName(expectedAward.get("企业"))
+                .taxMonth(expectedAward.get("税款缴纳月"))
+                .taxTypeName(expectedAward.get("奖励税种"))
+                .parkAwardAmt(expectedAward.get("园区应返税金额"))
+                .entpCode(expectedAward.get("档案编号"))
+                .parkName(expectedAward.get("入驻园区"))
+                .taxAmt(String.format("%.2f", taxAmt)).build();
+
+        filter.setTaxTypeId();
         // this.setEntpId(filter);
         return filter;
     }
@@ -131,8 +133,8 @@ public class Compare {
                     filter.setEntpId(id);
                 } else {
                     try {
-                        throw new DataNoFoundException(filter + filter.getEntpCode() + "企业不存在");
-                    } catch (DataNoFoundException e) {
+                        throw new MyException(filter + filter.getEntpCode() + "企业不存在");
+                    } catch (MyException e) {
                         logger.error("ERROR:" + filter + "\"" + "企业不存在");
                         e.printStackTrace();
                     }

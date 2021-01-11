@@ -1,0 +1,27 @@
+
+
+tests_suite:
+  config:
+    username: $rangephone
+    phone: $rangeuser(2)
+  case1:
+    url:
+    method:
+    data:
+      user1: $username
+      user2: $phone
+    except:
+
+  case2:
+    url:
+    method:
+    data:
+      user1: "test"
+      user2: "ssss"
+    except:
+
+  case3:
+    url:
+    method:
+    data:
+    except:

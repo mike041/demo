@@ -13,7 +13,7 @@
         <classes>
             <class name="DemoTest">
                 <methods>
-                    <include name="test1"/>
+                    <include name="test3"/>
                     <include name="test2"/>
                 </methods>
             </class>

@@ -58,12 +58,12 @@ public class NewImprest {
             String parkUrl = "/government-affair/park/cooperations";
             String parkBody = String.format("{\"keywords\":\"%s\",\"current\":1,\"size\":20}", parkName);
 
-            String parkId = JSON.parseObject(request.post(parkUrl, parkBody, token)).getJSONObject("data").getJSONArray("records").get(0).toString();
+            String parkId = JSON.parseObject(request.post(parkUrl, parkBody)).getJSONObject("data").getJSONArray("records").get(0).toString();
 
             String url2 = "/government-affair/enterprises";
             String body2 = String.format("entpBodyFull={\"parkId\":\"%s\",\"current\":1,\"size\":2}\n", parkId);
 
-            JSONArray entpIds = JSON.parseObject(request.post(url2, body2, token)).getJSONObject("data").getJSONArray("records");
+            JSONArray entpIds = JSON.parseObject(request.post(url2, body2)).getJSONObject("data").getJSONArray("records");
             String entpId;
             if (index < entpIds.size() - 1) {
                 entpId = entpIds.get(index).toString();
@@ -86,7 +86,7 @@ public class NewImprest {
 
             String actul = String.format(body,
                     enterpriseId);
-            String response = request.post(url1, actul, token);
+            String response = request.post(url1, actul);
             System.out.println(response);
 
         }

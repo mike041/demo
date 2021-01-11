@@ -2,7 +2,7 @@ classes:
   - class:
       className: "DemoTest"
       description: "测试入驻企业"
-      classSetUp: {contactName: "测试1192", qq: "15902376005", tels: "15902376005", weChat: "15902376005", customerName: "这更改好啥", companyName: "这是所了啥入驻",parkId: "1316213784702005249" }
+      classSetUp: {contactName: "测试1192", qq: "15902376005", tels: "15902376005", weChat: "15902376005",customerName: "这更改好啥", companyName: "这是所了啥入驻", parkId: "1316213784702005249", entpId: "1324596956214501378"}
       methodSetUp:  {}
   - class:
       className: "DemoTest1"

@@ -1,10 +1,13 @@
 package utils;
 
-import business.Compare;
-import exception.DataNoFoundException;
+import com.alibaba.fastjson.JSONObject;
+import entity.Requisition;
+import exception.MyException;
 import org.testng.Assert;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MyAssert {
@@ -21,6 +24,12 @@ public class MyAssert {
     }
 
 
+    public static void verifyJsonEquals(JSONObject actual, JSONObject expected) {
+        ArrayList<String> sourceList = JsonUtils.getJsonKey(null, expected);
+        ArrayList<String> targetList = JsonUtils.getJsonKey(null, actual);
+        Assert.assertEquals(sourceList, targetList);
+    }
+
     public static void verifyEquals(Object actual, Object expected) {
         try {
             Assert.assertEquals(actual, expected);
@@ -28,6 +37,7 @@ public class MyAssert {
             flag = false;
         }
     }
+
 
     public static void verifyEquals(Object actual, Object expected, Double awardAmt, String
             message) {
@@ -38,19 +48,28 @@ public class MyAssert {
         Double actualTio = (Double) actual / awardAmt;
 
 
-
         try {
             if ((double) actual - (double) expected == 0 || Math.abs((double) actual - (double) expected) <= 0.03) {
                 return;
             }/* else if (x + 0.04 == y || x + 0.05 == y || x + 0.10 == y || x / y == 2.00 || y / x == 2.00) {
                 return;
             }*/ else {
-                throw new DataNoFoundException("ERROR:" + message + "实际" + actual + "与" + "预期" + expected + "不等");
+                throw new MyException("ERROR:" + message + "实际" + actual + "与" + "预期" + expected + "不等");
             }
-        } catch (DataNoFoundException e) {
+        } catch (MyException e) {
             logger.error("ERROR:" + message + "实际" + actual + "与" + "预期" + expected + "不等");
             e.printStackTrace();
             flag = false;
+        }
+    }
+
+    public static void responseAssertion(List<Object> actualResponses, List<Object> exceptResponse, Requisition requisition) {
+        if (null == actualResponses) {
+            Assert.assertEquals(requisition.getResponse().getCode(), "10000");
+        } else {
+            for (int i = 0; i < actualResponses.size(); i++) {
+                Assert.assertEquals(actualResponses.get(i), exceptResponse.get(i));
+            }
         }
     }
 

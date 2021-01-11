@@ -1,9 +1,9 @@
 package exception;
 
-public class DataNoFoundException extends Exception {
+public class MyException extends Exception {
     String message;
 
-    public DataNoFoundException(String message) {
+    public MyException(String message) {
         super();
         this.message = message;
     }

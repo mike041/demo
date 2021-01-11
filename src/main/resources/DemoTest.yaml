@@ -2,5 +2,5 @@ classes:
   - class:
       className: "DemoTest"
       description: "测试入驻企业"
-      classSetUp: {contactName: "16093964439", qq: "16093964439", tels: "16093964439", weChat: "16093964439", customerName: "撵亢忘肖侄", companyName: "娇丘惰肯弘",parkId: "1316213784702005249" }
-      methodSetUp:  {}
+      classSetUp: {contactName: "16097299337", qq: "16097299337", tels: "16097299337", weChat: "16097299337", customerName: "漆旺钳蝇巴", companyName: "罕秆饱绿缕",parkId: "1316213784702005249" }
+      methodSetUp:  {entpId: "1324596956214501378",parkId: "1311206817207947265",responsibleOrgId: "1293514935712333825"}

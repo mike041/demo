@@ -1,5 +1,6 @@
 package entity;
 
+import lombok.Builder;
 import lombok.Data;
 import org.apache.log4j.Logger;
 import org.testng.annotations.Test;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Data
+@Builder
 public class Filter {
     public List<String> empName;
     private String entpName;

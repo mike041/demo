@@ -2,6 +2,7 @@ package utils;
 
 
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.util.StringUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -34,8 +35,6 @@ public class ExcelUtils {
     }
 
 
-
-
     public void load() {
         FileInputStream inStream = null;
         try {
@@ -46,8 +45,6 @@ public class ExcelUtils {
             } else {
                 sheet = workBook.getSheet(sheetName);
             }
-
-
             numOfRows = sheet.getLastRowNum() + 1;
             this.getColumnHeaderList();
 
@@ -98,13 +95,13 @@ public class ExcelUtils {
                     cellValue = String.valueOf(cell.getCellFormula());
                     break;
                 case _NONE:
-                    cellValue = "0";
+                    cellValue = "";
                     break;
                 case BLANK:
-                    cellValue = "0";
+                    cellValue = "";
                     break;
                 case ERROR:
-                    cellValue = "0";
+                    cellValue = "";
                     break;
                 default:
                     cellValue = cell.toString().trim();
@@ -128,7 +125,7 @@ public class ExcelUtils {
             Row row = sheet.getRow(i);
             Map<String, String> map = new HashMap<String, String>();
             List<String> list = new ArrayList<String>();
-            if (row != null) {
+            if (row != null && !this.isRowEmpty(row)) {
                 for (int j = 0; j < row.getLastCellNum(); j++) {
                     Cell cell = row.getCell(j);
                     if (i == 0) {
@@ -140,13 +137,25 @@ public class ExcelUtils {
                     list.add(this.getCellValue(cell));
                 }
             }
-            if (i > 0) {
+            if (i > 0 && !map.isEmpty()) {
                 mapData.add(map);
             }
-            listData.add(list);
+            if (!list.isEmpty()) {
+                listData.add(list);
+            }
         }
         flag = true;
+    }
 
+
+    public boolean isRowEmpty(Row row) {
+        for (int c = row.getFirstCellNum(); c < row.getLastCellNum(); c++) {
+            Cell cell = row.getCell(c);
+            String value = this.getCellValue(cell);
+            if (value != "")
+                return false;
+        }
+        return true;
     }
 
     public List<Map<String, String>> getData(int begin, int end) {
@@ -172,8 +181,6 @@ public class ExcelUtils {
         }
         return mapData;
     }
-
-
 
 
     public Map<String, String> getRowData(int index) {
@@ -251,7 +258,4 @@ public class ExcelUtils {
         System.out.println(excelUtils.getMapData().subList(0, 10));
 
     }
-
-
-
 }
