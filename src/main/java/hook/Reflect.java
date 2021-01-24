@@ -1,29 +1,31 @@
 package hook;
 
 
-import controller.RequisitionControl;
-
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class Reflect {
 
-    public static Object execute(String ClassName, Object keyword) throws ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
-        if (ClassName.equals("Global")) {
-            String aClassName = Reflect.class.getPackage().getName() + "." + ClassName;
-            Class hook = Class.forName(aClassName);
-            Constructor constructor = hook.getConstructor(RequisitionControl.class);
-            Object h = constructor.newInstance();
-            Method method = hook.getMethod("execute", Object.class);
-            return method.invoke(h, keyword);
-        }
+    public static String replace(String method, Object... args) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, ClassNotFoundException {
+        Class clazz = Hook.class;
+        Method aMethod = clazz.getMethod(method, Object.class);
+        return aMethod.invoke(new Hook(), args).toString();
 
-        String aClassName = Reflect.class.getPackage().getName() + "." + ClassName;
-        Class hook = Class.forName(aClassName);
-        Object h = hook.newInstance();
-        Method method = hook.getMethod("execute", Object.class);
-        return method.invoke(h, keyword);
+    }
+
+    public static void main(String[] args) {
+        String method = "randomString";
+        try {
+            System.out.println(Reflect.replace(method, "11"));
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
 }

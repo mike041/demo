@@ -1,9 +1,6 @@
 package excelEntity;
 
-import com.jayway.jsonpath.JsonPath;
-import controller.Assembly;
 import exception.MyException;
-import lombok.Builder;
 import lombok.Data;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
@@ -22,7 +19,7 @@ import java.util.regex.Pattern;
  */
 
 @Data
-@Builder
+
 public class ExcelRequisition {
     TestLog log = new TestLog(this.getClass());
     Row row;
@@ -37,7 +34,6 @@ public class ExcelRequisition {
         this.setExcelBody();
         this.setSaveResult();
         this.setExcelCheckRule();
-        this.setExcelExpect();
         this.setExcelExpect();
     }
 
@@ -61,7 +57,7 @@ public class ExcelRequisition {
         BODY(5),
         SAVERESULT(6),
         CHECKRULE(7),
-        Expect(8);
+        EXPECT(8);
 
         public int row;
 
@@ -176,7 +172,7 @@ public class ExcelRequisition {
         List<Result> resultList = new ArrayList<>();
         Cell cell = row.getCell(anEnum.SAVERESULT.row);
         String ResultString = this.getCellValue(cell);
-        if (ResultString == "" || ResultString.isEmpty() || ResultString != null) {
+        if (ResultString == "" || ResultString.isEmpty() || ResultString == null) {
             this.saveResult = null;
         } else {
             if (ResultString.contains(",")) {
@@ -216,12 +212,18 @@ public class ExcelRequisition {
                 String[] checkRules = checkRuleString.split(",");
                 for (int i = 0; i < checkRules.length; i++) {
                     String type = checkRules[i].split(":")[0];
-                    String jsonPath = checkRules[i].split(":")[1];
+                    String jsonPath = null;
+                    if (type == CheckRule.VALUE) {
+                        jsonPath = checkRules[i].split(":")[1];
+                    }
                     checkRuleList.add(CheckRule.builder().type(type).JsonPath(jsonPath).build());
                 }
             } else {
                 String type = checkRuleString.split(":")[0];
-                String jsonPath = checkRuleString.split(":")[1];
+                String jsonPath = null;
+                if (type == CheckRule.VALUE) {
+                    jsonPath = checkRuleString.split(":")[1];
+                }
                 checkRuleList.add(CheckRule.builder().type(type).JsonPath(jsonPath).build());
             }
             this.excelCheckRule = ExcelCheckRule.builder().checkRuleList(checkRuleList).build();
@@ -231,15 +233,15 @@ public class ExcelRequisition {
 
     public void setExcelExpect() {
         List<Expect> expectList = new ArrayList<>();
-        Cell cell = row.getCell(anEnum.Expect.row);
+        Cell cell = row.getCell(anEnum.EXPECT.row);
         String expectString = this.getCellValue(cell);
         if (expectString.equals("") || expectString.isEmpty()) {
             this.excelExpect = null;
         } else {
-            if (expectString.contains(",")) {
-                String[] expects = expectString.split(",");
+            if (expectString.contains("&&")) {
+                String[] expects = expectString.split("&&");
                 for (int i = 0; i < expects.length; i++) {
-                    String value = expects[i].split(":")[0];
+                    String value = expects[i];
                     expectList.add(Expect.builder().value(value).build());
                 }
             } else {

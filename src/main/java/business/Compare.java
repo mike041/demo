@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import entity.Filter;
 import exception.MyException;
-import interf.Request;
+import request.Request;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;

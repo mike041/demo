@@ -21,7 +21,6 @@ import java.util.List;
  */
 
 @Data
-@Builder
 public class Requisition {
     private String type;
     private String url;

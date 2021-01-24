@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="All Test Suite" parallel="methods">
+<suite name="接口测试" parallel="methods">
+
+    <!-- 监听器设置-->
+    <listeners>
+        <listener class-name="listener.MyRetryListener"/>
+    </listeners>
     <test verbose="2" name="D:/ideaProject/demo">
         <parameter name="host" value="测试12333312"></parameter>
         <parameter name="qq" value="1084883801"></parameter>
@@ -10,17 +15,13 @@
         <parameter name="CompanyName" value="这是合作客户的入驻企业啊"></parameter>
         <parameter name="parkId" value="1305320785377931265"></parameter>
 
+
         <classes>
             <class name="DemoTest">
-                <methods>
-                    <include name="test3"/>
-                    <include name="test2"/>
-                </methods>
+                <!-- <methods>
+                     <include name="test"/>
+                 </methods>-->
             </class>
         </classes>
     </test>
-    <listeners>
-        <listener class-name="org.uncommons.reportng.HTMLReporter"/>
-        <listener class-name="org.uncommons.reportng.JUnitXMLReporter"/>
-    </listeners>
 </suite>

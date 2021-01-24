@@ -11,9 +11,6 @@ public class Parameter {
     String className;
     String args;
 
-    public Parameter(String mGroup) {
-        String[] strings = mGroup.replace("&", "").split(",");
 
-    }
 
 }

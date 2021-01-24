@@ -22,7 +22,7 @@ public class Assembly {
         List<Expect> excelExpectList = excelExpect.getExpectList();
         if (checkRuleList.size() != excelExpectList.size()) {
             try {
-                throw new MyException("校验规则数量与预期数量不匹配：" + "校验:" + checkRuleList.size() + "预期参数：" + excelExpectList.size();
+                throw new MyException("校验规则数量与预期数量不匹配：" + "校验:" + checkRuleList.size() + "预期参数：" + excelExpectList.size());
             } catch (MyException e) {
                 e.printStackTrace();
             }
@@ -71,19 +71,38 @@ public class Assembly {
     public static String replace(String className, Object value) {
         String replacement = null;
         try {
-            replacement = Reflect.execute(className, value).toString();
+            replacement = Reflect.replace(className, value);
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         return replacement;
+    }
+
+    /**
+     * 获取响应
+     */
+
+    public static Response setResponse(String rerponse) {
+        String code = JsonPath.read(rerponse, "$.code").toString();
+        Object data = JsonPath.read(rerponse, "$.data");
+        String error = JsonPath.read(rerponse, "$.error");
+        String msg = JsonPath.read(rerponse, "$.msg");
+        boolean succeed = JsonPath.read(rerponse, "$.succeed");
+        Response response = Response.builder()
+                .code(code)
+                .data(data)
+                .error(error)
+                .msg(msg)
+                .succeed(succeed)
+                .jsonResponse(rerponse)
+                .build();
+        return response;
     }
 
 

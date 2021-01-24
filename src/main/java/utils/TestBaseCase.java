@@ -1,7 +1,7 @@
 package utils;
 
 
-import interf.Request;
+import request.Request;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
@@ -10,11 +10,12 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 
 
 public class TestBaseCase {
-    public Map map;
+    public static Map<String,Object> testCaseMap = new HashMap();
     //方法描述
     Request request = new Request();
     public static String description;

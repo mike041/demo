@@ -1,4 +1,4 @@
-package interf;
+package request;
 
 import com.alibaba.fastjson.JSON;
 import org.apache.http.*;
@@ -17,7 +17,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.testng.annotations.Test;
-import request.MyGet;
 import utils.PropertiesUtils;
 import utils.TestLog;
 

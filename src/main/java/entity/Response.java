@@ -12,7 +12,7 @@ public class Response {
     final static int SUCCEED_CODE = 10000;
     final static boolean SUCCEED_TRUE = true;
     final static boolean SUCCEED_FALSE = false;
-    int code;
+    String code;
     String error;
     String msg;
     boolean succeed;
