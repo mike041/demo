@@ -6,6 +6,7 @@ import entity.Response;
 import excelEntity.*;
 import exception.MyException;
 import hook.Reflect;
+import org.testng.Assert;
 import utils.JsonUtils;
 
 import java.lang.reflect.InvocationTargetException;
@@ -16,8 +17,11 @@ import static excelEntity.CheckRule.*;
 public class Assembly {
 
 
-
     public static List<ActualAssert> setAllAssertion(ExcelCheckRule excelCheckRule, ExcelExpect excelExpect, Response response) {
+        if (null == excelCheckRule) {
+            return null;
+        }
+
         List<CheckRule> checkRuleList = excelCheckRule.getCheckRuleList();
         List<Expect> excelExpectList = excelExpect.getExpectList();
         if (checkRuleList.size() != excelExpectList.size()) {
@@ -68,19 +72,8 @@ public class Assembly {
     }
 
 
-    public static String replace(String className, Object value) {
-        String replacement = null;
-        try {
-            replacement = Reflect.replace(className, value);
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+    public static String replace(String MethodName, Object... value) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        String replacement = Reflect.replace(MethodName, value);
         return replacement;
     }
 
